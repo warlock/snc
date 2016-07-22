@@ -1,6 +1,6 @@
 {
   "name": "snc",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Asyncronous Iterators Collection",
   "main": "snc.js",
   "scripts": {
