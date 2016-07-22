@@ -1,0 +1,43 @@
+{
+  "name": "snc",
+  "version": "1.0.0",
+  "description": "Asyncronous Iterators Collection",
+  "main": "snc.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/warlock/snc.git"
+  },
+  "keywords": [
+    "flow",
+    "performance",
+    "javascript",
+    "array",
+    "defered",
+    "then",
+    "util",
+    "stdlib",
+    "modules",
+    "async",
+    "each",
+    "promise",
+    "waterfall",
+    "await",
+    "iterator",
+    "tools",
+    "utils"
+  ], "author": "Josep Subils Rigau <josep@spellbook.io> (http://spellbook.io)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/warlock/spellbook/issues"
+  },
+  "homepage": "http://www.spellbook.io",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.11",
+    "mocha-jshint": "^2.3.1",
+    "mocha-lcov-reporter": "^1.2.0"
+  }
+}
