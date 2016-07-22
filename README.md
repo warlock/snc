@@ -1,4 +1,4 @@
-#snc
+snc
 ===
 > Asyncronous Iterators Collection
 
