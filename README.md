@@ -235,16 +235,16 @@ snc.pl(2, [
 -> we: ["a","b","c","a2","b2","c2","a3","b3","c3"]
 ```
 
-**snc.forever(callback(next, end), callback_end);**
+**snc.forever(callback(repeat, end), callback_end);**
 
 Loops syncronous forever.
 Alternative name: fe.
 
 ```javascript
-snc.forever(function (next, end) {
+snc.forever(function (repeat, end) {
     console.log("Hi!")
     setTimeout(function () {
-        next();
+        repeat();
     }, 3000);
 });
 ```
@@ -257,12 +257,12 @@ snc.forever(function (next, end) {
 Breaking forever loop.
 ```javascript
 var i = 0;
-snc.fe(function (next, end) {
+snc.fe(function (repeat, end) {
     console.log("loop: " + i);
     if (i>=3) end("Now Break!!");
     i++;
     setTimeout(function () {
-        next();
+        repeat();
     }, 3000);
 }, function (data) {
     console.log("Response: " + data);
