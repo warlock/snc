@@ -3,7 +3,7 @@ var Snc = function () {
 		var i = 0;
 		var stack = [];
 		var done = function (data) {
-			stack.push(data)
+			if (data !== undefined) stack.push(data)
 			if (i < array.length) {
 				var y = i;
 				i++;
