@@ -3,7 +3,7 @@ var Snc = function () {
 		var i = 0;
 		var done = function () {
 			if (i < array.length) {
-				y = i;
+				var y = i;
 				i++;
 				callback(array[y], y, done, end);
 			} else if (typeof response === 'function') response();
@@ -43,7 +43,7 @@ var Snc = function () {
 		var end = function (data) {
 			if (typeof response === 'function') response(data);
 		};
-		var next = function (data) {
+		var next = function () {
 			callback(next, end);
 		};
 		callback(next, end);
@@ -109,7 +109,7 @@ var Snc = function () {
 
 			var done = function (gdata) {
 				to--;
-				if (gdata) data[ix] = gdata;
+				if (gdata) data[index] = gdata;
 				if (it !== array.length) {
 					async(array[it], it);
 					it++;
