@@ -1,12 +1,14 @@
 var Snc = function () {
 	this.each = function (array, callback, response) {
 		var i = 0;
-		var done = function () {
+		var stack = [];
+		var done = function (data) {
+			stack.push(data)
 			if (i < array.length) {
 				var y = i;
 				i++;
 				callback(array[y], y, done, end);
-			} else if (typeof response === 'function') response();
+			} else if (typeof response === 'function') response(stack);
 		};
 
 		var end = function (data) {
@@ -14,7 +16,7 @@ var Snc = function () {
 		};
 
 		if (i < array.length) done();
-		else if (typeof response === 'function') response();
+		else if (typeof response === 'function') response(stack);
 	};
 
 	this.wf = this.waterfall = function (callbacks, response) {
