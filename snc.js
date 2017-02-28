@@ -142,7 +142,7 @@ var Snc = function () {
 
 
 	this.times = function (fin, callback, end) {
-		this.for(1, fin-1, 1, callback, end);
+		this.for(0, fin-1, 1, callback, end);
 	};
 }
 
