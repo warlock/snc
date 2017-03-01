@@ -1,4 +1,4 @@
-/*eslint no-unused-vars: "off"*/
+/*eslint no-unused-vars: 0*/
 /*global snc*/
 var Snc = function () {
   this.each = function (array, callback, response) {
