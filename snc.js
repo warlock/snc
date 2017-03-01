@@ -132,7 +132,7 @@ var Snc = function () {
 		var store = [];
 		var done = function (data) {
 			store.push(data);
-			if (ini < fin) {
+			if (ini < fin-1) {
 				ini = ini + inc;
 				callback(ini, done, end);
 			} else if (typeof end === 'function') end(store);
@@ -142,7 +142,7 @@ var Snc = function () {
 
 
 	this.times = function (fin, callback, end) {
-		this.for(0, fin-1, 1, callback, end);
+		this.for(0, fin, 1, callback, end);
 	};
 }
 
