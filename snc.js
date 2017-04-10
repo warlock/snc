@@ -57,10 +57,6 @@ var Snc = function () {
     var it = 0;
     var data = [];
     var async = function (ix) {
-      setTimeout(function () {
-        callbacks[ix](done);
-      }, 0);
-
       var done = function (gdata) {
         if (gdata) data[ix] = gdata;
         if (it < callbacks.length -1) it++;
@@ -68,6 +64,7 @@ var Snc = function () {
           if (typeof response === 'function')response(data);
         }
       };
+      callbacks[ix](done);
     };
 
     if (callbacks instanceof Array) {
@@ -80,10 +77,6 @@ var Snc = function () {
     var to = callbacks.length;
     var data = [];
     var async = function (ix) {
-      setTimeout(function () {
-        callbacks[ix](done);
-      }, 0);
-
       var done = function (gdata) {
         to--;
         if (gdata) data[ix] = gdata;
@@ -92,6 +85,7 @@ var Snc = function () {
           it++;
         } else if (to === 0 && typeof response === 'function') response(data);
       };
+      callbacks[ix](done);
     };
 
     if (callbacks instanceof Array) {
@@ -107,10 +101,6 @@ var Snc = function () {
     var to = array.length;
     var data = [];
     var async = function (item, index) {
-      setTimeout(function () {
-        callback(item, index, done);
-      }, 0);
-
       var done = function (gdata) {
         to--;
         if (gdata) data[index] = gdata;
@@ -119,6 +109,7 @@ var Snc = function () {
           it++;
         } else if (to === 0 && typeof response === 'function') response(data);
       };
+      callback(item, index, done);
     };
 
     if (array instanceof Array && array.length > 0) {
