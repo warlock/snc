@@ -1,6 +1,6 @@
 /*eslint no-unused-vars: 0*/
-var Snc = function () {
-  this.each = function (array, callback, response) {
+var snc = {
+  "each": function (array, callback, response) {
     var i = 0;
     var store = [];
     var done = function (data) {
@@ -18,9 +18,8 @@ var Snc = function () {
 
     if (i < array.length) done();
     else if (typeof response === 'function') response(store);
-  };
-
-  this.wf = this.waterfall = function (callbacks, response) {
+  },
+  "waterfall": function (callbacks, response) {
     var i = 0;
     var done = function (data, respdata) {
       if (i < callbacks.length-1) {
@@ -40,9 +39,8 @@ var Snc = function () {
       }
     };
     if (callbacks instanceof Array) callbacks[i](done);
-  };
-
-  this.fe = this.forever = function (callback, response) {
+  },
+  "forever": function (callback, response) {
     var end = function (data) {
       if (typeof response === 'function') response(data);
     };
@@ -50,28 +48,8 @@ var Snc = function () {
       callback(next, end);
     };
     callback(next, end);
-  };
-
-  this.parallel = function (callbacks, response) {
-    var it = 0;
-    var store = [];
-    var async = function (ix) {
-      var done = function (data) {
-        if (data) store[ix] = data;
-        if (it < callbacks.length -1) it++;
-        else {
-          if (typeof response === 'function') response(store);
-        }
-      };
-      callbacks[ix](done);
-    };
-
-    if (callbacks instanceof Array) {
-      for (var i = 0; i < callbacks.length; i++) async(i);
-    }
-  };
-
-  this.pl = this.parallelLimit = function (limit, callbacks, response) {
+  },
+  "parallelLimit": function (limit, callbacks, response) {
     var it = 0;
     var to = callbacks.length;
     var store = [];
@@ -82,7 +60,9 @@ var Snc = function () {
         if (it !== callbacks.length) {
           async(it);
           it++;
-        } else if (to === 0 && typeof response === 'function') response(store);
+        } else if (to === 0 && typeof response === 'function') {
+          response(store);
+        }
       };
       callbacks[ix](done);
     };
@@ -93,9 +73,19 @@ var Snc = function () {
         it++;
       }
     }
-  };
-
-  this.epl = this.eachpl = this.eachParallelLimit = function (array, limit, callback, response) {
+  },
+  "forSync": function (ini, fin, inc, callback, end) {
+    var store = [];
+    var done = function (data) {
+      if (data) store[ini] = data;
+      if (ini < fin-1) {
+        ini = ini + inc;
+        callback(ini, done, end);
+      } else if (typeof end === 'function') end(store);
+    };
+    callback(ini, done, end);
+  },
+  "eachParallelLimit": function (array, limit, callback, response) {
     var it = 0;
     var to = array.length;
     var store = [];
@@ -118,25 +108,34 @@ var Snc = function () {
         it++;
       }
     } else if ( typeof response === 'function') response(store);
-  };
-
-  this.for = this.forSync = function (ini, fin, inc, callback, end) {
-    var store = [];
-    var done = function (data) {
-      if (data) store[ini] = data;
-      if (ini < fin-1) {
-        ini = ini + inc;
-        callback(ini, done, end);
-      } else if (typeof end === 'function') end(store);
-    };
-    callback(ini, done, end);
-  };
-
-
-  this.times = function (fin, callback, end) {
+  },
+  "times": function (fin, callback, end) {
     this.for(0, fin, 1, callback, end);
-  };
+  },
+  "parallel": function (callbacks, response) {
+    var it = 0;
+    var store = [];
+    var async = function (ix) {
+      var done = function (data) {
+        if (data) store[ix] = data;
+        if (it < callbacks.length -1) it++;
+        else {
+          if (typeof response === 'function') response(store);
+        }
+      };
+      callbacks[ix](done);
+    };
+
+    if (callbacks instanceof Array) {
+      for (var i = 0; i < callbacks.length; i++) async(i);
+    }
+  },
+  "eachpl": snc.eachParallelLimit,
+  "epl": snc.eachParallelLimit,
+  "wf": snc.waterfall,
+  "pl": snc.parallelLimit,
+  "fe": snc.forever,
+  "for": snc.forSync
 };
 
-if (typeof process === 'object') module.exports = new Snc();
-else var snc = new Snc();
+if (typeof process === 'object') module.exports = snc;
