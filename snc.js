@@ -129,13 +129,14 @@ var snc = {
     if (callbacks instanceof Array) {
       for (var i = 0; i < callbacks.length; i++) async(i);
     }
-  },
-  "eachpl": snc.eachParallelLimit,
-  "epl": snc.eachParallelLimit,
-  "wf": snc.waterfall,
-  "pl": snc.parallelLimit,
-  "fe": snc.forever,
-  "for": snc.forSync
+  }
 };
+
+snc.eachpl = snc.eachParallelLimit;
+snc.epl = snc.eachParallelLimit;
+snc.wf = snc.waterfall;
+snc.pl = snc.parallelLimit;
+snc.fe = snc.forever;
+snc.for = snc.forSync;
 
 if (typeof process === 'object') module.exports = snc;
