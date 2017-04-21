@@ -2,14 +2,14 @@
 var Snc = function () {
   this.each = function (array, callback, response) {
     var i = 0;
-    var stack = [];
+    var store = [];
     var done = function (data) {
-      if (data !== undefined) stack.push(data);
+      if (data) store[i] = data;
       if (i < array.length) {
         var y = i;
         i++;
         callback(array[y], y, done, end);
-      } else if (typeof response === 'function') response(stack);
+      } else if (typeof response === 'function') response(store);
     };
 
     var end = function (data) {
@@ -17,7 +17,7 @@ var Snc = function () {
     };
 
     if (i < array.length) done();
-    else if (typeof response === 'function') response(stack);
+    else if (typeof response === 'function') response(store);
   };
 
   this.wf = this.waterfall = function (callbacks, response) {
@@ -54,13 +54,13 @@ var Snc = function () {
 
   this.parallel = function (callbacks, response) {
     var it = 0;
-    var data = [];
+    var store = [];
     var async = function (ix) {
-      var done = function (gdata) {
-        if (gdata) data[ix] = gdata;
+      var done = function (data) {
+        if (data) store[ix] = data;
         if (it < callbacks.length -1) it++;
         else {
-          if (typeof response === 'function')response(data);
+          if (typeof response === 'function') response(store);
         }
       };
       callbacks[ix](done);
@@ -74,15 +74,15 @@ var Snc = function () {
   this.pl = this.parallelLimit = function (limit, callbacks, response) {
     var it = 0;
     var to = callbacks.length;
-    var data = [];
+    var store = [];
     var async = function (ix) {
-      var done = function (gdata) {
+      var done = function (data) {
         to--;
-        if (gdata) data[ix] = gdata;
+        if (data) store[ix] = data;
         if (it !== callbacks.length) {
           async(it);
           it++;
-        } else if (to === 0 && typeof response === 'function') response(data);
+        } else if (to === 0 && typeof response === 'function') response(store);
       };
       callbacks[ix](done);
     };
@@ -98,15 +98,15 @@ var Snc = function () {
   this.epl = this.eachpl = this.eachParallelLimit = function (array, limit, callback, response) {
     var it = 0;
     var to = array.length;
-    var data = [];
+    var store = [];
     var async = function (item, index) {
-      var done = function (gdata) {
+      var done = function (data) {
         to--;
-        if (gdata) data[index] = gdata;
+        if (data) store[index] = data;
         if (it !== array.length) {
           async(array[it], it);
           it++;
-        } else if (to === 0 && typeof response === 'function') response(data);
+        } else if (to === 0 && typeof response === 'function') response(store);
       };
       callback(item, index, done);
     };
@@ -117,13 +117,13 @@ var Snc = function () {
         async(array[i], i);
         it++;
       }
-    } else if ( typeof response === 'function') response(data);
+    } else if ( typeof response === 'function') response(store);
   };
 
   this.for = this.forSync = function (ini, fin, inc, callback, end) {
     var store = [];
     var done = function (data) {
-      store.push(data);
+      if (data) store[ini] = data;
       if (ini < fin-1) {
         ini = ini + inc;
         callback(ini, done, end);
