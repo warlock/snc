@@ -98,7 +98,12 @@ var snc = {
           it++;
         } else if (to === 0 && typeof response === 'function') response(store);
       };
-      callback(item, index, done);
+
+      var end = function (data) {
+        if (typeof response === 'function') response(data);
+      };
+
+      callback(item, index, done, end);
     };
 
     if (array instanceof Array && array.length > 0) {
