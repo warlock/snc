@@ -4,7 +4,7 @@ var snc = {
     var i = 0;
     var store = [];
     var done = function (data) {
-      if (data !== null || data !== undefined) store[i] = data;
+      if (data !== null && data !== undefined) store[i] = data;
       if (i < array.length) {
         var y = i;
         i++;
@@ -24,14 +24,14 @@ var snc = {
     var done = function (data, respdata) {
       if (i < callbacks.length-1) {
         i++;
-        if (data !== null || data !== undefined) {
+        if (data !== null && data !== undefined) {
           if (data === true) {
             if (typeof response === 'function') response(respdata);
           } else callbacks[i](done, data);
         } else callbacks[i](done);
       } else {
         if (typeof response === 'function') {
-          if (data !== null || data !== undefined) {
+          if (data !== null && data !== undefined) {
             if (data === true) response(respdata);
             else response(data);
           } else response();
@@ -56,7 +56,7 @@ var snc = {
     var async = function (ix) {
       var done = function (data) {
         to--;
-        if (data !== null || data !== undefined) store[ix] = data;
+        if (data !== null && data !== undefined) store[ix] = data;
         if (it !== callbacks.length) {
           async(it);
           it++;
@@ -77,7 +77,7 @@ var snc = {
   "forSync": function (ini, fin, inc, callback, end) {
     var store = [];
     var done = function (data) {
-      if (data !== null || data !== undefined) store.push(data);
+      if (data !== null && data !== undefined) store.push(data);
       if (ini < fin) {
         ini = ini + inc;
         callback(ini, done, end);
@@ -92,7 +92,7 @@ var snc = {
     var async = function (item, index) {
       var done = function (data) {
         to--;
-        if (data !== null || data !== undefined) store[index] = data;
+        if (data !== null && data !== undefined) store[index] = data;
         if (it !== array.length) {
           async(array[it], it);
           it++;
@@ -122,7 +122,7 @@ var snc = {
     var store = [];
     var async = function (ix) {
       var done = function (data) {
-        if (data !== null || data !== undefined) store[ix] = data;
+        if (data !== null && data !== undefined) store[ix] = data;
         if (it < callbacks.length -1) it++;
         else {
           if (typeof response === 'function') response(store);
