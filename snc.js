@@ -115,7 +115,7 @@ var snc = {
     } else if ( typeof response === 'function') response(store);
   },
   "times": function (fin, callback, end) {
-    this.forSync(0, fin-1, 1, callback, end);
+    snc.forSync(0, fin-1, 1, callback, end);
   },
   "parallel": function (callbacks, response) {
     var it = 0;
