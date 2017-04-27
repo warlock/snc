@@ -76,15 +76,14 @@ var snc = {
   },
   "forSync": function (ini, fin, inc, callback, end) {
     var store = [];
-    var ind = ini;
     var done = function (data) {
-      if (ind < fin-1) {
-        if (data !== null || data !== undefined) store[ind] = data;
-        ind = ind + inc;
-        callback(ind, done, end);
+      if (data !== null || data !== undefined) store.push(data);
+      if (ini < fin) {
+        ini = ini + inc;
+        callback(ini, done, end);
       } else if (typeof end === 'function') end(store);
     };
-    callback(ind, done, end);
+    callback(ini, done, end);
   },
   "eachParallelLimit": function (array, limit, callback, response) {
     var it = 0;
@@ -116,7 +115,7 @@ var snc = {
     } else if ( typeof response === 'function') response(store);
   },
   "times": function (fin, callback, end) {
-    this.for(0, fin, 1, callback, end);
+    this.forSync(0, fin-1, 1, callback, end);
   },
   "parallel": function (callbacks, response) {
     var it = 0;

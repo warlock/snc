@@ -339,9 +339,26 @@ snc.for(0, 10, 1, function (index, next, end) {
 -> 8
 -> 9
 -> 10
--> [ 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 ]
+-> [ 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 ]
 ```
 
+```javascript
+snc.for(1, 10, 2, function (index, next, end) => {
+  console.log(index)
+  next(index)
+}, function (data) {
+  console.log(data)
+})
+```
+```
+-> 1
+-> 3
+-> 5
+-> 7
+-> 9
+-> 11
+-> [ 1, 3, 5, 7, 9, 11 ]
+```
 ## License
 All the code here is under MIT license. Which means you could do virtually anything with the code.
 I will appreciate it very much if you keep an attribution where appropriate.
