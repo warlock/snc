@@ -13,7 +13,7 @@ npm install snc
 
 ## Node.Js : Import module:
 ```javascript
-var snc = require("snc");
+const snc = require("snc");
 ```
 
 ## Web : Import module:
@@ -21,19 +21,18 @@ var snc = require("snc");
 <script src="snc/snc.js"></script>
 ```
 
-**snc.each(array, callback_loop(item, index, next_method, end_method), callback_end);**
+**snc.each(array, callback_loop(item, index, next_method, end_method), callback_end)**
 
 Runs next function when "next" method is executed.
 ```javascript
-var list = ['a', 'b', 'c'];
-snc.each(list, function (item, i, next, end) {
-  console.log("item: " + item );
-  setTimeout(function () {
-    next();
-  }, 3000);
-}, function () {
-  console.log("End");
-});
+const list = ['a', 'b', 'c']
+
+snc.each(list, (item, index, next, end) => {
+  console.log(`item: ${item}`)
+  setTimeout(next, 3000)
+}, () => {
+  console.log(`End`)
+})
 ```
 ```
 -> item: a // Wait 3 seconds;
@@ -44,16 +43,17 @@ snc.each(list, function (item, i, next, end) {
 
 Call "end" method for break the loop.
 ```javascript
-var list = ['a', 'b', 'c'];
-snc.each(list, function (item, i, next, end) {
-  console.log("item: " + item );
-  setTimeout(function () {
-    if (i === 1) end("Bye!");
-    else next();
+const list = ['a', 'b', 'c']
+
+snc.each(list, (item, index, next, end) => {
+  console.log(`item: ${item}`)
+  setTimeout(() => {
+    if (index === 1) end(`Bye!`)
+    else next()
   }, 3000);
-}, function (data) {
-  if (data) console.log("End: " + data);
-  else console.log("End");
+}, (data) => {
+  if (data) console.log(`End: ${data}`)
+  else console.log(`End`)
 });
 ```
 ```
@@ -62,18 +62,16 @@ snc.each(list, function (item, i, next, end) {
 -> End: Bye!
 ```
 
-**snc.eachParallelLimit(array, number_limit, callback_loop(item, index, next_method), callback_end);**
+**snc.eachParallelLimit(array, number_limit, callback_loop(item, index, next_method), callback_end)**
 
 Runs in parallel limit and next loop when "next" method is executed. Alternative names: eachpl, epl.
 ```javascript
-var list = ['a', 'b', 'c', 'd'];
-snc.epl(list, 2, function (item, i, next) {
-  console.log("item: " + item );
-  setTimeout(function () {
-    next();
-  }, 2000);
-}, function () {
-  console.log("End");
+var list = ['a', 'b', 'c', 'd']
+snc.epl(list, 2, (item, index, next) => {
+  console.log(`item: ${item}`)
+  setTimeout(next, 2000)
+}, () => {
+  console.log(`End`)
 });
 ```
 ```
@@ -84,23 +82,23 @@ snc.epl(list, 2, function (item, i, next) {
 -> End
 ```
 
-**snc.waterfall(array_functions(done, data), callback_end);**
+**snc.waterfall(array_functions(done, data), callback_end)**
 
 Runs next function when "done" method is executed.
 Alternative name: wf.
 ```javascript
 snc.waterfall([
-  function (done) {
-    console.log("fire");
-    done(5);
+  done => {
+    console.log(`fire`)
+    done(5)
   },
-  function (done, data) {
-    console.log("ice: " + data);
-    done("win");
+  (done, data) => {
+    console.log(`ice: ${data}`)
+    done(`win`)
   }
-], function (data) {
-  console.log("End: " + data);
-});
+], data => {
+  console.log(`End: ${data}`)
+})
 ```
 ```
 -> fire
@@ -111,16 +109,16 @@ snc.waterfall([
 Break the waterfall with "true".
 ```javascript
 snc.wf([
-  function (done) {
-    console.log("fire");
-    done(true, 5);
+  done => {
+    console.log(`fire`)
+    done(true, 5)
   },
-  function (done, data) {
-    console.log("ice: " + data);
-    done("win");
+  (done, data) => {
+    console.log(`ice: ${data}`)
+    done(`win`)
   }
-], function (data) {
-  console.log("End: " + data);
+], data => {
+  console.log(`End: ${data}`)
 });
 ```
 ```
@@ -129,32 +127,32 @@ snc.wf([
 ```
 
 
-**snc.parallel(array_functions(done), callback_end(data));**
+**snc.parallel(array_functions(done), callback_end(data))**
 
 Run functions in parallel and then execute "callback_end".
 ```javascript
 snc.parallel([
-  function (done) {
-    setTimeout(function () {
-      console.log("hi 3!");
-      done("a")
-    }, 3000);
+  done => {
+    setTimeout(() => {
+      console.log(`hi 3!`)
+      done(`a`)
+    }, 3000)
   },
-  function (done) {
-    setTimeout(function () {
-      console.log("hi 2!");
-      done("b");
-    }, 2000);
+  done => {
+    setTimeout(() => {
+      console.log(`hi 2!`)
+      done(`b`)
+    }, 2000)
   },
-  function (done) {
-    setTimeout(function () {
-      console.log("hi 1!");
-      done("c");
-    }, 1000);
+  done => {
+    setTimeout(() => {
+      console.log(`hi 1!`)
+      done(`c`)
+    }, 1000)
   }
-],function (data) {
-  console.log("End: " + JSON.stringify(data));
-});
+],data => {
+  console.log("End: " + JSON.stringify(data))
+})
 ```
 ```
 //Wait 1 second
@@ -164,68 +162,68 @@ snc.parallel([
 -> End: ["a","b","c"]
 ```
 
-**snc.parallelLimit(number, array_functions(done), callback_end(data));**
+**snc.parallelLimit(number, array_functions(done), callback_end(data))**
 
 Run limit of functions in parallel and then execute "callback_end". Alternative name : pl
 ```javascript
 snc.pl(2, [
-  function (done) {
-    setTimeout(function () {
-      console.log("go 1!");
+  done => {
+    setTimeout(() => {
+      console.log("go 1!")
       done("a")
-    }, 1000);
+    }, 1000)
   },
-  function (done) {
-    setTimeout(function () {
-      console.log("go 2!");
+  done => {
+    setTimeout(() => {
+      console.log("go 2!")
       done("b")
-    }, 3000);
+    }, 3000)
   },
-  function (done) {
-    setTimeout(function () {
-      console.log("go 3!");
+  done => {
+    setTimeout(() => {
+      console.log("go 3!")
       done("c")
-    }, 1000);
+    }, 1000)
   },
-  function (done) {
-    setTimeout(function () {
-      console.log("go 4!");
+  done => {
+    setTimeout(() => {
+      console.log("go 4!")
       done("a2")
-    }, 3000);
+    }, 3000)
   },
-  function (done) {
-    setTimeout(function () {
-      console.log("go 5!");
+  done => {
+    setTimeout(() => {
+      console.log("go 5!")
       done("b2")
-    }, 1000);
+    }, 1000)
   },
-  function (done) {
-    setTimeout(function () {
-      console.log("go 6!");
+  done => {
+    setTimeout(() => {
+      console.log("go 6!")
       done("c2")
-   }, 3000);
+   }, 3000)
   },
-  function (done) {
-    setTimeout(function () {
-      console.log("go 7!");
+  done => {
+    setTimeout(() => {
+      console.log("go 7!")
       done("a3")
-    }, 1000);
+    }, 1000)
   },
-  function (done) {
-    setTimeout(function () {
-      console.log("go 8!");
+  done => {
+    setTimeout(() => {
+      console.log("go 8!")
       done("b3")
-    }, 3000);
+    }, 3000)
   },
-  function (done) {
-    setTimeout(function () {
-       console.log("go 9!");
+  done => {
+    setTimeout(() => {
+       console.log("go 9!")
        done("c3")
-    }, 1000);
+    }, 1000)
   }
-],function (data) {
-  console.log("we: " + JSON.stringify(data));
-});
+],data => {
+  console.log(`we: ${JSON.stringify(data)}`)
+})
 ```
 ```
 -> go 1!
@@ -240,18 +238,16 @@ snc.pl(2, [
 -> we: ["a","b","c","a2","b2","c2","a3","b3","c3"]
 ```
 
-**snc.forever(callback(repeat, end), callback_end);**
+**snc.forever(callback(repeat, end), callback_end)**
 
 Loops syncronous forever.
 Alternative name: fe.
 
 ```javascript
-snc.forever(function (repeat, end) {
-  console.log("Hi!")
-  setTimeout(function () {
-    repeat();
-  }, 3000);
-});
+snc.forever((repeat, end) => {
+  console.log(`Hi!`)
+  setTimeout(repeat, 3000)
+})
 ```
 ```
 -> Hi! // Wait 3 seconds;
@@ -262,35 +258,33 @@ snc.forever(function (repeat, end) {
 Breaking forever loop.
 ```javascript
 var i = 0;
-snc.fe(function (repeat, end) {
-  console.log("loop: " + i);
-  if (i>=3) end("Now Break!!");
-  i++;
-  setTimeout(function () {
-    repeat();
-  }, 3000);
-}, function (data) {
-  console.log("Response: " + data);
-});
+snc.fe((repeat, end) => {
+  console.log(`loop: ${i}`)
+  if (i>=3) end(`Now Break!!!`)
+  i++
+  setTimeout(repeat, 3000)
+}, data => {
+  console.log(`Response: ${data}`)
+})
 ```
 ```
--> loop: 0 // Wait 3 seconds;
--> loop: 1 // Wait 3 seconds;
--> loop: 2 // Wait 3 seconds;
--> loop: 3 // Wait 3 seconds;
+-> loop: 0 // Wait 3 seconds
+-> loop: 1 // Wait 3 seconds
+-> loop: 2 // Wait 3 seconds
+-> loop: 3 // Wait 3 seconds
 -> Response: Now Break!!
 ```
 
-**snc.times(number, callback(index, next, end), end);**
+**snc.times(number, callback(index, next, end), end)**
 
 Iterates function "number" times.
 ```javascript
-snc.times(5, function (index, next, end) {
-  console.log("iterator: " + index);
+snc.times(5, (index, next, end) => {
+  console.log(`Iterator: ${index}`)
   if (index === 3) end()
-  else next();
+  else next()
 }, () => {
-  console.log("End!")
+  console.log(`End!`)
 })
 ```
 ```
@@ -302,9 +296,9 @@ snc.times(5, function (index, next, end) {
 ```
 
 ```javascript
-snc.times(5, function (index, next, end) {
-  console.log("Iterator " + index);
-  next();
+snc.times(5, (index, next, end) => {
+  console.log(`Iterator ${index}`)
+  next()
 })
 ```
 ```
@@ -316,16 +310,16 @@ snc.times(5, function (index, next, end) {
 -> Iterator 5
 ```
 
-**snc.for(initial, final, increment, callback(index, next, end), callback_end(data));**
+**snc.for(initial, final, increment, callback(index, next, end), callback_end(data))**
 
 Syncronous "for" iterator.
 Alternative name: forSync.
 
 ```javascript
-snc.for(0, 10, 1, function (index, next, end) {
+snc.for(0, 10, 1, (index, next, end) => {
   console.log(index)
   next(5)
-}, function (data) {
+}, data => {
   console.log(data)
 })
 ```
@@ -345,10 +339,10 @@ snc.for(0, 10, 1, function (index, next, end) {
 ```
 
 ```javascript
-snc.for(1, 10, 2, function (index, next, end) => {
+snc.for(1, 10, 2, (index, next, end) => {
   console.log(index)
   next(index)
-}, function (data) {
+}, data => {
   console.log(data)
 })
 ```
