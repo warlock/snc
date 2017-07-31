@@ -4,7 +4,8 @@ var snc = {
     var i = 0;
     var store = [];
     var done = function (data) {
-      if (data !== null && data !== undefined) store[i] = data;
+      if (undefined !== data && data !== null) store[i-1] = data;
+
       if (i < array.length) {
         var y = i;
         i++;
