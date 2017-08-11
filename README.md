@@ -13,7 +13,7 @@ npm install snc
 
 ## Node.Js : Import module:
 ```javascript
-const snc = require("snc");
+const snc = require("snc")
 ```
 
 ## Web : Import module:
@@ -35,9 +35,9 @@ snc.each(list, (item, index, next, end) => {
 })
 ```
 ```
--> item: a // Wait 3 seconds;
--> item: b // Wait 3 seconds;
--> item: c // Wait 3 seconds;
+-> item: a // Wait 3 seconds
+-> item: b // Wait 3 seconds
+-> item: c // Wait 3 seconds
 -> End
 ```
 
@@ -50,15 +50,15 @@ snc.each(list, (item, index, next, end) => {
   setTimeout(() => {
     if (index === 1) end(`Bye!`)
     else next()
-  }, 3000);
+  }, 3000)
 }, (data) => {
   if (data) console.log(`End: ${data}`)
   else console.log(`End`)
-});
+})
 ```
 ```
--> item: a // Wait 3 seconds;
--> item: b // Wait 3 seconds;
+-> item: a // Wait 3 seconds
+-> item: b // Wait 3 seconds
 -> End: Bye!
 ```
 
@@ -72,13 +72,13 @@ snc.epl(list, 2, (item, index, next) => {
   setTimeout(next, 2000)
 }, () => {
   console.log(`End`)
-});
+})
 ```
 ```
 -> item: a
 -> item: b
--> item: c // Next to start when next method executed;
--> item: d // Next to start when next method executed;
+-> item: c // Next to start when next method executed
+-> item: d // Next to start when next method executed
 -> End
 ```
 
@@ -119,7 +119,7 @@ snc.wf([
   }
 ], data => {
   console.log(`End: ${data}`)
-});
+})
 ```
 ```
 -> fire
@@ -250,14 +250,14 @@ snc.forever((repeat, end) => {
 })
 ```
 ```
--> Hi! // Wait 3 seconds;
--> Hi! // Wait 3 seconds;
+-> Hi! // Wait 3 seconds
+-> Hi! // Wait 3 seconds
 -> ...
 ```
 
 Breaking forever loop.
 ```javascript
-var i = 0;
+var i = 0
 snc.fe((repeat, end) => {
   console.log(`loop: ${i}`)
   if (i>=3) end(`Now Break!!!`)
