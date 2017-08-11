@@ -151,7 +151,7 @@ snc.parallel([
     }, 1000)
   }
 ],data => {
-  console.log("End: " + JSON.stringify(data))
+  console.log(`End: ${JSON.stringify(data)}`)
 })
 ```
 ```
