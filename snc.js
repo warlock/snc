@@ -1,6 +1,5 @@
-/*eslint no-unused-vars: 0*/
 var snc = {
-  "each": function (array, callback, response) {
+  each: function (array, callback, response) {
     var i = 0;
     var store = [];
     var done = function (data) {
@@ -20,7 +19,7 @@ var snc = {
     if (i < array.length) done();
     else if (typeof response === 'function') response(store);
   },
-  "waterfall": function (callbacks, response) {
+  waterfall: function (callbacks, response) {
     var i = 0;
     var done = function (data, respdata) {
       if (i < callbacks.length-1) {
@@ -41,7 +40,7 @@ var snc = {
     };
     if (callbacks instanceof Array) callbacks[i](done);
   },
-  "forever": function (callback, response) {
+  forever: function (callback, response) {
     var end = function (data) {
       if (typeof response === 'function') response(data);
     };
@@ -50,7 +49,7 @@ var snc = {
     };
     callback(next, end);
   },
-  "parallelLimit": function (limit, callbacks, response) {
+  parallelLimit: function (limit, callbacks, response) {
     var it = 0;
     var to = callbacks.length;
     var store = [];
@@ -75,7 +74,7 @@ var snc = {
       }
     }
   },
-  "forSync": function (ini, fin, inc, callback, end) {
+  forSync: function (ini, fin, inc, callback, end) {
     var store = [];
     var done = function (data) {
       if (data !== null && data !== undefined) store.push(data);
@@ -86,39 +85,36 @@ var snc = {
     };
     callback(ini, done, end);
   },
-  "eachParallelLimit": function (array, limit, callback, response) {
+  eachParallelLimit: function (array, limit, callback, response) {
     var it = 0;
-    var to = array.length;
     var store = [];
-    var async = function (item, index) {
-      var done = function (data) {
-        to--;
+    var async = function (index) {
+      it++;
+      var next = function (data) {
         if (data !== null && data !== undefined) store[index] = data;
-        if (it !== array.length) {
-          async(array[it], it);
-          it++;
-        } else if (to === 0 && typeof response === 'function') response(store);
+
+        if (it < array.length) async(it);
+        else if (index === array.length-1 && typeof response === 'function') response(store);
       };
 
       var end = function (data) {
         if (typeof response === 'function') response(data);
       };
 
-      callback(item, index, done, end);
+      callback(array[index], index, next, end);
     };
-
+    
     if (array instanceof Array && array.length > 0) {
       if (limit > array.length) limit =  array.length;
       for (var i = 0; i < limit; i++) {
-        async(array[i], i);
-        it++;
+        async(it);
       }
-    } else if ( typeof response === 'function') response(store);
+    } else if (typeof response === 'function') response(store);
   },
-  "times": function (fin, callback, end) {
+  times: function (fin, callback, end) {
     snc.forSync(0, fin-1, 1, callback, end);
   },
-  "parallel": function (callbacks, response) {
+  parallel: function (callbacks, response) {
     var it = 0;
     var store = [];
     var async = function (ix) {
