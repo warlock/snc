@@ -163,5 +163,7 @@ snc.wf = snc.waterfall;
 snc.pl = snc.parallelLimit;
 snc.fe = snc.forever;
 snc.for = snc.forSync;
+snc.p = snc.parallel;
+snc.map = snc.all;
 
 if (typeof process === 'object') module.exports = snc;
