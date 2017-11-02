@@ -135,6 +135,25 @@ var snc = {
     if (callbacks instanceof Array) {
       for (var i = 0; i < callbacks.length; i++) async(i);
     }
+  },
+  all: function (array, callback, response) {
+    var it = 0;
+    var store = [];
+    var async = function (index) {
+      var done = function (data) {
+        it++;
+        if (data !== null && data !== undefined) store[index] = data;
+        if (it === array.length && typeof response === 'function') response(store);
+      };
+
+      callback(array[index], done);
+    };
+
+    if (array instanceof Array && array.length > 0) {
+      for (var i = 0; i < array.length; i++) {
+        async(i);
+      }
+    } else if (typeof response === 'function') response(store);
   }
 };
 
