@@ -21,6 +21,12 @@ const snc = require("snc")
 <script src="snc/snc.js"></script>
 ```
 
+# Http CDN
+* [https://cdn.js.gl/snc.js](https://cdn.js.gl/snc.js)
+* [https://cdn.jsdelivr.net/npm/snc@latest](https://cdn.jsdelivr.net/npm/snc@latest)
+* [https://raw.githubusercontent.com/warlock/snc/master/snc.js](https://raw.githubusercontent.com/warlock/snc/master/snc.js)
+* [https://unpkg.com/snc](https://unpkg.com/snc)
+
 **snc.each(array, callback_loop(item, index, next_method, end_method), callback_end)**
 
 Runs next function when "next" method is executed.
