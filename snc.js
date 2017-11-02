@@ -1,6 +1,6 @@
 /*eslint no-unused-vars: 0*/
 var snc = {
-  "each": function (array, callback, response) {
+  each: function (array, callback, response) {
     var i = 0;
     var store = [];
     var done = function (data) {
@@ -20,7 +20,7 @@ var snc = {
     if (i < array.length) done();
     else if (typeof response === 'function') response(store);
   },
-  "waterfall": function (callbacks, response) {
+  waterfall: function (callbacks, response) {
     var i = 0;
     var done = function (data, respdata) {
       if (i < callbacks.length-1) {
@@ -41,7 +41,7 @@ var snc = {
     };
     if (callbacks instanceof Array) callbacks[i](done);
   },
-  "forever": function (callback, response) {
+  forever: function (callback, response) {
     var end = function (data) {
       if (typeof response === 'function') response(data);
     };
@@ -50,7 +50,7 @@ var snc = {
     };
     callback(next, end);
   },
-  "parallelLimit": function (limit, callbacks, response) {
+  parallelLimit: function (limit, callbacks, response) {
     var it = 0;
     var to = callbacks.length;
     var store = [];
@@ -75,7 +75,7 @@ var snc = {
       }
     }
   },
-  "forSync": function (ini, fin, inc, callback, end) {
+  forSync: function (ini, fin, inc, callback, end) {
     var store = [];
     var done = function (data) {
       if (data !== null && data !== undefined) store.push(data);
@@ -86,7 +86,7 @@ var snc = {
     };
     callback(ini, done, end);
   },
-  "eachParallelLimit": function (array, limit, callback, response) {
+  eachParallelLimit: function (array, limit, callback, response) {
     var it = 0;
     var to = array.length;
     var store = [];
@@ -115,10 +115,10 @@ var snc = {
       }
     } else if ( typeof response === 'function') response(store);
   },
-  "times": function (fin, callback, end) {
+  times: function (fin, callback, end) {
     snc.forSync(0, fin-1, 1, callback, end);
   },
-  "parallel": function (callbacks, response) {
+  parallel: function (callbacks, response) {
     var it = 0;
     var store = [];
     var async = function (ix) {
