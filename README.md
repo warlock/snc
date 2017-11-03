@@ -370,7 +370,7 @@ Execute all elements in array in parallel. And get all responses in order.
 Alternative name: map.
 
 ```javascript
-s.all([3,2,1], (element, done) => {
+snc.all([3,2,1], (element, index, done) => {
   setTimeout(() => {
     console.log(element)
     done(element)
