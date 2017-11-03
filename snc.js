@@ -146,7 +146,7 @@ var snc = {
         if (it === array.length && typeof response === 'function') response(store);
       };
 
-      callback(array[index], done);
+      callback(array[index], index, done);
     };
 
     if (array instanceof Array && array.length > 0) {
