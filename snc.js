@@ -1,4 +1,4 @@
-/*eslint no-unused-vars: 0*/
+/* exported snc */
 var snc = {
   each: function (array, callback, response) {
     var i = 0;
@@ -9,7 +9,9 @@ var snc = {
       if (i < array.length) {
         var y = i;
         i++;
-        callback(array[y], y, done, end);
+        setTimeout(function () {
+          callback(array[y], y, done, end);
+        }, 0);
       } else if (typeof response === 'function') response(store);
     };
 
@@ -28,8 +30,16 @@ var snc = {
         if (data !== null && data !== undefined) {
           if (data === true) {
             if (typeof response === 'function') response(respdata);
-          } else callbacks[i](done, data);
-        } else callbacks[i](done);
+          } else {
+            setTimeout(function () {
+              callbacks[i](done, data);
+            }, 0);
+          }
+        } else {
+          setTimeout(function () {
+            callbacks[i](done);
+          }, 0);
+        }
       } else {
         if (typeof response === 'function') {
           if (data !== null && data !== undefined) {
@@ -39,15 +49,23 @@ var snc = {
         }
       }
     };
-    if (callbacks instanceof Array) callbacks[i](done);
+    if (callbacks instanceof Array) {
+      setTimeout(function () {
+        callbacks[i](done);
+      }, 0);
+    }
   },
   forever: function (callback, response) {
     var end = function (data) {
       if (typeof response === 'function') response(data);
     };
+
     var next = function () {
-      callback(next, end);
+      setTimeout(function () {
+        callback(next, end);
+      }, 0);
     };
+
     callback(next, end);
   },
   parallelLimit: function (limit, callbacks, response) {
@@ -65,7 +83,9 @@ var snc = {
           response(store);
         }
       };
-      callbacks[ix](done);
+      setTimeout(function () {
+        callbacks[ix](done);
+      }, 0);
     };
 
     if (callbacks instanceof Array) {
@@ -75,6 +95,49 @@ var snc = {
       }
     }
   },
+
+  /*
+  forSync: function (ini, fin, inc, callback, response) {
+    var store = [];
+    var end = function (data) {
+      if (typeof response === 'function') response(data);
+    };
+
+    var done = function (data) {
+      if (data !== null && data !== undefined) store.push(data);
+      ini += inc;
+      if (ini <= fin) {
+        callback(ini, done, end);
+      } else if (typeof end === 'function') end(store);
+    };
+
+    callback(ini, done, end);
+  },
+  */
+
+  /*
+  forSync: function (ini, fin, inc, callback, response) {
+    var i = ini;
+    var store = [];
+    var done = function (data) {
+      if (undefined !== data && data !== null) store.push(data);
+
+      if (i < fin) {
+        i++;
+        //setTimeout(function () {
+          callback(i, done, end);
+        //}, 0);
+      } else if (typeof response === 'function') response(store);
+    };
+
+    var end = function (data) {
+      if (typeof response === 'function') response(data);
+    };
+
+    if (i < fin) done();
+    else if (typeof response === 'function') response(store);
+  },
+  */
   forSync: function (ini, fin, inc, callback, end) {
     var store = [];
     var done = function (data) {
@@ -104,7 +167,9 @@ var snc = {
         if (typeof response === 'function') response(data);
       };
 
-      callback(item, index, done, end);
+      setTimeout(function () {
+        callback(item, index, done, end);
+      }, 0);
     };
 
     if (array instanceof Array && array.length > 0) {
@@ -129,11 +194,15 @@ var snc = {
           if (typeof response === 'function') response(store);
         }
       };
-      callbacks[ix](done);
+      setTimeout(function () {
+        callbacks[ix](done);
+      }, 0);
     };
 
     if (callbacks instanceof Array) {
-      for (var i = 0; i < callbacks.length; i++) async(i);
+      for (var i = 0; i < callbacks.length; i++) {
+        async(i);
+      }
     }
   },
   all: function (array, callback, response) {
@@ -146,7 +215,9 @@ var snc = {
         if (it === array.length && typeof response === 'function') response(store);
       };
 
-      callback(array[index], index, done);
+      setTimeout(function () {
+        callback(array[index], index, done);
+      }, 0);
     };
 
     if (array instanceof Array && array.length > 0) {
