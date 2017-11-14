@@ -183,11 +183,34 @@ snc.times(5, (index, next, end) => {
 })
 */
 
+/*
 snc.for(0, 10, 1, (index, next, end) => {
   console.log(index)
-  setInterval(() => {
+  setTimeout(() => {
     next(5)
   }, 1000)
 }, data => {
+  console.log(`LENGTH: ${data.length} -> ${JSON.stringify(data)}`)
+})
+*/
+
+/*
+snc.for(1, 10, 2, (index, next, end) => {
+  console.log(index)
+  setTimeout(() => {
+    next(index)
+  }, 1000)
+}, data => {
   console.log(data)
+})
+*/
+
+snc.all([3,2,1], (element, index, done) => {
+  setTimeout(() => {
+    console.log(element)
+    done(element)
+  }, element * 1000)
+},
+res => {
+  console.log(`Reponse: ${JSON.stringify(res)}`)
 })
