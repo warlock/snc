@@ -72,7 +72,7 @@ snc.each(list, (item, index, next, end) => {
 
 Runs in parallel limit and next loop when "next" method is executed. Alternative names: eachpl, epl.
 ```javascript
-var list = ['a', 'b', 'c', 'd']
+const list = ['a', 'b', 'c', 'd']
 snc.epl(list, 2, (item, index, next) => {
   console.log(`item: ${item}`)
   setTimeout(next, 2000)
@@ -265,7 +265,7 @@ snc.forever((repeat, end) => {
 
 Breaking forever loop.
 ```javascript
-var i = 0
+const i = 0
 snc.fe((repeat, end) => {
   console.log(`loop: ${i}`)
   if (i>=3) end(`Now Break!!!`)
@@ -288,25 +288,11 @@ snc.fe((repeat, end) => {
 Iterates function "number" times.
 ```javascript
 snc.times(5, (index, next, end) => {
-  console.log(`Iterator: ${index}`)
-  if (index === 3) end()
-  else next()
-}, () => {
-  console.log(`End!`)
-})
-```
-```
--> Iterator 0
--> Iterator 1
--> Iterator 2
--> Iterator 3
--> End!
-```
-
-```javascript
-snc.times(5, (index, next, end) => {
   console.log(`Iterator ${index}`)
   next()
+},
+() => {
+  console.log('End')
 })
 ```
 ```
@@ -315,7 +301,7 @@ snc.times(5, (index, next, end) => {
 -> Iterator 2
 -> Iterator 3
 -> Iterator 4
--> Iterator 5
+-> End
 ```
 
 **snc.for(initial, final, increment, callback(index, next, end), callback_end(data))**
@@ -326,9 +312,11 @@ Alternative name: forSync.
 ```javascript
 snc.for(0, 10, 1, (index, next, end) => {
   console.log(index)
-  next(5)
+  setTimeout(() => {
+    next(5)
+  }, 1000)
 }, data => {
-  console.log(data)
+  console.log(`LENGTH: ${data.length} -> ${JSON.stringify(data)}`)
 })
 ```
 ```
@@ -342,14 +330,15 @@ snc.for(0, 10, 1, (index, next, end) => {
 -> 7
 -> 8
 -> 9
--> 10
--> [ 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 ]
+-> LENGTH: 10 -> [5,5,5,5,5,5,5,5,5,5]
 ```
 
 ```javascript
 snc.for(1, 10, 2, (index, next, end) => {
   console.log(index)
-  next(index)
+  setTimeout(() => {
+    next(index)
+  }, 1000)
 }, data => {
   console.log(data)
 })
@@ -360,8 +349,7 @@ snc.for(1, 10, 2, (index, next, end) => {
 -> 5
 -> 7
 -> 9
--> 11
--> [ 1, 3, 5, 7, 9, 11 ]
+-> [ 1, 3, 5, 7, 9 ]
 ```
 
 **snc.all(array, callback(element, done))**
