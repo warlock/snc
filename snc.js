@@ -95,59 +95,25 @@ var snc = {
       }
     }
   },
-
-  /*
-  forSync: function (ini, fin, inc, callback, response) {
-    var store = [];
-    var end = function (data) {
-      if (typeof response === 'function') response(data);
-    };
-
-    var done = function (data) {
-      if (data !== null && data !== undefined) store.push(data);
-      ini += inc;
-      if (ini <= fin) {
-        callback(ini, done, end);
-      } else if (typeof end === 'function') end(store);
-    };
-
-    callback(ini, done, end);
-  },
-  */
-
-  /*
   forSync: function (ini, fin, inc, callback, response) {
     var i = ini;
     var store = [];
-    var done = function (data) {
-      if (undefined !== data && data !== null) store.push(data);
-
-      if (i < fin) {
-        i++;
-        //setTimeout(function () {
-          callback(i, done, end);
-        //}, 0);
-      } else if (typeof response === 'function') response(store);
-    };
-
     var end = function (data) {
       if (typeof response === 'function') response(data);
     };
 
-    if (i < fin) done();
-    else if (typeof response === 'function') response(store);
-  },
-  */
-  forSync: function (ini, fin, inc, callback, end) {
-    var store = [];
     var done = function (data) {
-      if (data !== null && data !== undefined) store.push(data);
-      if (ini < fin) {
-        ini = ini + inc;
-        callback(ini, done, end);
-      } else if (typeof end === 'function') end(store);
+      if (undefined !== data && data !== null) store.push(data);
+      i += inc;
+      if (i < fin) {
+        setTimeout(function () {
+          callback(i, done, end);
+        }, 0);
+      } else end(store);
     };
-    callback(ini, done, end);
+
+    if (i < fin) callback(i, done, end);
+    else end();
   },
   eachParallelLimit: function (array, limit, callback, response) {
     var it = 0;
