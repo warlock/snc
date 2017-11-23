@@ -22,7 +22,7 @@ const snc = require("snc")
 ```
 
 # Http CDN
-* [https://cdn.js.gl/snc.js](https://cdn.js.gl/snc.js)
+* [http://cdn.js.gl/snc.js](http://cdn.js.gl/snc.js)
 * [https://cdn.jsdelivr.net/npm/snc@latest](https://cdn.jsdelivr.net/npm/snc@latest)
 * [https://raw.githubusercontent.com/warlock/snc/master/snc.js](https://raw.githubusercontent.com/warlock/snc/master/snc.js)
 * [https://unpkg.com/snc](https://unpkg.com/snc)
