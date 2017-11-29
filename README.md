@@ -376,7 +376,7 @@ res => {
 -> [3,2,1]
 ```
 
-**snc.foreverParallel(limit, callback(counter, done), callback_end(response))**
+**snc.foreverParallel(limit, callback(counter, done), callback_end(data))**
 
 Forever loop with parallel limit.
 Alternative name: fp.
@@ -390,8 +390,8 @@ snc.fp(2, (counter, done, end) => {
     }, 3000)
   } else end('bye!')
 },
-res => {
-  console.log(`END: ${res}`)
+data => {
+  console.log(`END: ${data}`)
 })
 ```
 
