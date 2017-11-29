@@ -1,3 +1,5 @@
+//import { setTimeout } from 'timers';
+
 /* eslint-env es6 */
 /* eslint no-console: 0, no-unused-vars: 0, semi: 0, arrow-parens: 0 */
 
@@ -204,7 +206,7 @@ snc.for(1, 10, 2, (index, next, end) => {
   console.log(data)
 })
 */
-
+/*
 snc.all([3,2,1], (element, index, done) => {
   setTimeout(() => {
     console.log(element)
@@ -213,4 +215,17 @@ snc.all([3,2,1], (element, index, done) => {
 },
 res => {
   console.log(`Reponse: ${JSON.stringify(res)}`)
+})
+*/
+
+snc.fp(3, (counter, done, end) => {
+  console.log(`COUNTER ${counter}`)
+  if (counter < 12 ) {
+    setTimeout(() => {
+      done()
+    }, 3000)
+  } else end('buuu')
+},
+res => {
+  console.log(`END: ${res}`)
 })

@@ -191,6 +191,25 @@ var snc = {
         async(i);
       }
     } else if (typeof response === 'function') response(store);
+  },
+  foreverParallel: function (limit, callback, response) {
+    var counter = 0;
+    var endcounter = 0;
+    var end = function (data) {
+      endcounter++;
+      if (typeof response === 'function' && endcounter === limit) response(data);
+    };
+
+    var done = function () {
+      setTimeout(function () {
+        counter++;
+        callback(counter, done, end);
+      }, 0);
+    };
+
+    for (var i = 0; i < limit; i++) {
+      done();
+    }
   }
 };
 
@@ -202,5 +221,6 @@ snc.fe = snc.forever;
 snc.for = snc.forSync;
 snc.p = snc.parallel;
 snc.map = snc.all;
+snc.fp = snc.foreverParallel;
 
 if (typeof process === 'object') module.exports = snc;
