@@ -216,6 +216,19 @@ var snc = {
       if (typeof response === 'function') response(data);
     };
     operation(then);
+  },
+  interval: function (time, operation, response) {
+    var inter = null;
+
+    var end = function (data) {
+      clearInterval(inter);
+      if (typeof response === 'function') response(data);
+    };
+
+    inter = setInterval(function () {
+      operation(end);
+    }, time);
+
   }
 };
 
