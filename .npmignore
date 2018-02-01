@@ -1,4 +1,4 @@
 .eslintrc.js
-test/
+examples/
 build/
 webpack.config.js

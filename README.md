@@ -283,6 +283,36 @@ snc.fe((repeat, end) => {
 -> Response: Now Break!!
 ```
 
+**snc.foreverParallel(limit, callback(counter, done), callback_end(data))**
+
+Forever loop with parallel limit.
+Alternative name: fp.
+
+```javascript
+snc.fp(2, (counter, done, end) => {
+  console.log(counter)
+  if (counter < 6 ) {
+    setTimeout(() => {
+      done()
+    }, 3000)
+  } else end('bye!')
+},
+data => {
+  console.log(`END: ${data}`)
+})
+```
+
+```
+-> 1
+-> 2
+-> 3 // Wait 3 seconds
+-> 4 // Wait 3 seconds
+-> 5 // Wait 6 seconds
+-> 6 // Wait 6 seconds
+-> 7 // Wait 9 seconds
+-> END: bye bye! // Wait 9 seconds
+```
+
 **snc.times(number, callback(index, next, end), end)**
 
 Iterates function "number" times.
@@ -376,35 +406,28 @@ res => {
 -> [3,2,1]
 ```
 
-**snc.foreverParallel(limit, callback(counter, done), callback_end(data))**
+**snc.now(function, callback(data))**
 
-Forever loop with parallel limit.
-Alternative name: fp.
+Execute now and then execute callback.
 
 ```javascript
-snc.fp(2, (counter, done, end) => {
-  console.log(counter)
-  if (counter < 6 ) {
-    setTimeout(() => {
-      done()
-    }, 3000)
-  } else end('bye!')
+snc.now(then => {
+  console.log('Now')
+
+  setTimeout(() => {
+    then('End...')
+  }, 3000)
 },
-data => {
-  console.log(`END: ${data}`)
+res => {
+  console.log(`Reponse: ${JSON.stringify(res)}`)
 })
 ```
 
 ```
--> 1
--> 2
--> 3 // Wait 3 seconds
--> 4 // Wait 3 seconds
--> 5 // Wait 6 seconds
--> 6 // Wait 6 seconds
--> 7 // Wait 9 seconds
--> END: bye bye! // Wait 9 seconds
+-> Response: "End..."
 ```
+
+
 
 ## License
 All the code here is under MIT license. Which means you could do virtually anything with the code.

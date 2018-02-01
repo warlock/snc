@@ -210,6 +210,12 @@ var snc = {
     for (var i = 0; i < limit; i++) {
       done();
     }
+  },
+  now: function (operation, response) {
+    var then = function (data) {
+      if (typeof response === 'function') response(data);
+    };
+    operation(then);
   }
 };
 
