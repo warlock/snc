@@ -427,6 +427,26 @@ res => {
 -> Response: "End..."
 ```
 
+**snc.interval(function, end(data))**
+
+Execute in time intervals and break with end function.
+
+```javascript
+var i = 0
+snc.interval(2000, end => {
+  console.log(`Executed: ${new Date()}`)
+  i++
+  if (i === 8) end('Bye bye')
+},
+res => {
+  console.log(`End: ${res}`)
+})
+```
+
+```
+-> Response: "End..."
+```
+
 
 
 ## License
