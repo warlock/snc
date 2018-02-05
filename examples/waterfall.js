@@ -1,20 +1,20 @@
 /* eslint-env es6 */
 /* eslint no-console: 0, no-unused-vars: 0, semi: 0, arrow-parens: 0 */
-const snc = require('../snc.js')
+const { waterfall } = require('../snc.js')
 
-snc.waterfall([
+waterfall([
   done => {
     console.log(`fire`)
     done(5)
   },
   (done, data) => {
     console.log(`ice1: ${data}`)
-    done(true, "win")
+    done("win")
   },
   (done, data) => {
     console.log(`ice2: ${data}`)
     setTimeout(() => {
-      done("win")
+      done(true, "win")
     }, 2000)
   },
   (done, data) => {

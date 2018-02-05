@@ -1,8 +1,8 @@
 /* eslint-env es6 */
 /* eslint no-console: 0, no-unused-vars: 0, semi: 0, arrow-parens: 0 */
-const snc = require('../snc.js')
+const { parallel } = require('../snc.js')
 
-snc.parallel(
+parallel(
   [
     done => {
       setTimeout(() => {
