@@ -3,4 +3,3 @@ npm-debug.log
 *.swp
 build/
 .DS_Store
-package-lock.json

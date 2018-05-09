@@ -37,6 +37,6 @@
   },
   "homepage": "http://snc.js.gl",
   "devDependencies": {
-    "webpack": "^3.10.0"
+    "webpack": "^4.8.1"
   }
 }
