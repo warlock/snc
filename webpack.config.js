@@ -1,4 +1,4 @@
-var path = require('path');
+const path = require('path')
 
 module.exports = {
   entry: './snc.js',
@@ -8,4 +8,4 @@ module.exports = {
     filename: './build/snc.js',
     libraryTarget: "umd"
   }
-};
+}
